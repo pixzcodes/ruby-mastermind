@@ -18,7 +18,14 @@ class Game
           end
         end
         puts "Please enter a valid guess"
+      end # end of guess block
+
+      if @code_breaker.guess === @code_maker.code 
+        puts "You guessed correctly! You win!"
+        puts "Guesses taken: #{@turns + 1}"
+        break
       end
+      @code_maker.guess_response(@code_breaker.guess)
       @turns += 1
     end
   end
@@ -31,6 +38,18 @@ class Computer
     @possible_colors = ['r', 'p', 'b', 'y']
     4.times {@code.push(@possible_colors.sample)}
     @code
+  end
+
+  def guess_response (guess)
+    @guess = guess
+    @guess.each_with_index do | guess_element, guess_index |
+      @code.each_with_index do | code_element, code_index |
+        # compare guess with code and give different answers 
+        #depending on if the color and index matches or not
+        # give default answer if it does not match anything
+        # correct color but wrong space?
+      end
+    end
   end
 end
 
