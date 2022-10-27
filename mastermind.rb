@@ -6,8 +6,17 @@ class Game
   end
 
   def play
-    @turns = 0
-    while @turns < 12
+    @turns = 1
+    puts "Welcome to Master Mind!"
+    puts "You are the Code Breaker."
+    puts "The computer will generate a new code that will be"
+    puts "a mix of the four colors: "
+    puts "Yellow (y), Red (r), Blue (b), Purple (p)."
+    puts "Type the lowercase first letter of each color "
+    puts "in the sequence that you think the code is in."
+    puts "You have 12 turns to guess the correct code."
+    puts "Good Luck!"
+    while @turns <= 12
       puts "Turn ##{@turns}"
       puts "Code Breaker guess:"
       loop do # get guess and run checks to make sure its valid
@@ -22,11 +31,15 @@ class Game
 
       if @code_breaker.guess === @code_maker.code 
         puts "You guessed correctly! You win!"
-        puts "Guesses taken: #{@turns + 1}"
+        puts "Guesses taken: #{@turns}"
         break
       end
       @code_maker.guess_response(@code_breaker.guess)
       @turns += 1
+    end
+    if @turns >=13
+      puts "Oh no! It seems as though you have run out of turns"
+      puts "The code was #{@code_maker.code.join(' ')}"
     end
   end
 end
@@ -35,19 +48,19 @@ class Computer
   attr_reader :code
   def create_code
     @code = []
-    @possible_colors = ['r', 'p', 'b', 'y']
-    4.times {@code.push(@possible_colors.sample)}
+    @colors = ['r', 'p', 'b', 'y']
+    4.times {@code.push(@colors.sample)}
     @code
   end
 
   def guess_response (guess)
-    @guess = guess
-    @guess.each_with_index do | guess_element, guess_index |
+    guess.each_with_index do | guess_element, guess_index |
       @code.each_with_index do | code_element, code_index |
-        # compare guess with code and give different answers 
-        #depending on if the color and index matches or not
-        # give default answer if it does not match anything
-        # correct color but wrong space?
+        if guess_element === code_element 
+          if guess_index === code_index
+            puts "Color at position #{guess_index + 1} is correct"
+          end
+        end
       end
     end
   end
